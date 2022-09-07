@@ -1,4 +1,4 @@
-module zch
+module github.com/zohu/zch
 
 go 1.19
 
