@@ -7,9 +7,9 @@ github.com/zohu/zch
 ```
 // 初始化的前两个入参：一级缓存的超时时间，一级缓存的刷新时间
 zch.NewL2(time.Hour, 5*time.Minute, &redis.UniversalOptions{
-Addrs:    zrdsConf.Host,
-Password: zrdsConf.Password,
-DB:       0,
+    Addrs:    zrdsConf.Host,
+    Password: zrdsConf.Password,
+    DB:       0,
 })
 ```
 ```
