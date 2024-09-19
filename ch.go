@@ -15,10 +15,8 @@ type L2 struct {
 var l2 *L2
 
 type Options struct {
-	Expiration    time.Duration
-	CleanInterval time.Duration
-	PrefixL2      string
-	RedisOptions  *redis.UniversalOptions
+	*Config
+	RedisOptions *redis.UniversalOptions
 }
 
 // NewL2
@@ -27,19 +25,27 @@ type Options struct {
 // @param cleanInterval
 // @param ops
 // @return *L2
-func NewL2(ops *Options) *L2 {
-	if ops.Expiration == 0 {
-		ops.Expiration = time.Hour
+func NewL2(conf *Config, opts ...redis.UniversalOptions) *L2 {
+	ops := &Options{
+		Config: conf,
+		RedisOptions: &redis.UniversalOptions{
+			Addrs:    conf.GetAddrs(),
+			Password: conf.GetPassword(),
+			DB:       int(conf.GetDb()),
+		},
 	}
-	if ops.CleanInterval == 0 {
-		ops.CleanInterval = time.Minute * 5
+	if ops.GetExpiration() == 0 {
+		ops.Expiration = int64(time.Hour)
+	}
+	if ops.GetCleanInterval() == 0 {
+		ops.CleanInterval = int64(time.Minute * 5)
 	}
 	if ops.PrefixL2 == "" {
 		ops.PrefixL2 = "l2"
 	}
 	if l2 == nil {
 		l2 = &L2{
-			c:      NewMemory(ops.Expiration, ops.CleanInterval),
+			c:      NewMemory(time.Duration(ops.GetExpiration()), time.Duration(ops.GetCleanInterval())),
 			r:      NewRds(ops.RedisOptions),
 			prefix: ops.PrefixL2,
 		}

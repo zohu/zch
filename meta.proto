@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package zch;
+option go_package = "github.com/zohu/zch";
+
+message Config {
+    // @gotags: yaml:"expiration"
+    int64 expiration = 1;
+    // @gotags: yaml:"clean_interval"
+    int64 clean_interval = 2;
+    // @gotags: yaml:"prefix_l2"
+    string prefix_l2 = 3;
+    // @gotags: yaml:"addrs"
+    repeated string addrs = 4;
+    // @gotags: yaml:"db"
+    int32 db = 5;
+    // @gotags: yaml:"password"
+    string password = 6;
+}

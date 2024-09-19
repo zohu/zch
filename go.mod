@@ -2,7 +2,10 @@ module github.com/zohu/zch
 
 go 1.19
 
-require github.com/go-redis/redis/v8 v8.11.5
+require (
+	github.com/go-redis/redis/v8 v8.11.5
+	google.golang.org/protobuf v1.34.2
+)
 
 require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
